@@ -1,7 +1,8 @@
 package br.com.banco.models;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,8 +21,6 @@ import lombok.Data;
 @Entity
 @Table(name = "transferencia")
 public class Transferencia {
-    private static final DecimalFormat df = new DecimalFormat("####.00");
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,8 +43,7 @@ public class Transferencia {
     public void setConta(Conta conta) {
         this.conta = conta;
     }
-    public String getValor() {
-        String formated = df.format(this.valor).replaceAll(",", ".");
-        return formated;
+    public BigDecimal getValor() {
+        return new BigDecimal(this.valor).setScale(2, RoundingMode.HALF_UP);
     }
 }
