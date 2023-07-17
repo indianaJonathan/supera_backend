@@ -12,6 +12,7 @@ import br.com.banco.repositories.TransferenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/transferencia")
+@CrossOrigin(origins = "*")
 public class TransferenciaController {
     @Autowired
     private TransferenciaRepository repo;
@@ -34,11 +36,11 @@ public class TransferenciaController {
         @Nullable @RequestParam(name = "nome_operador") String nome_operador
     ) {
         // Get all the transfers by operator and date if ALL the filters are filled
-        if (nome_operador != null && data_inicial != null && data_final != null && id != null)
-            return repo.findBynomeOperadorTransacaoAndDataTransferenciaBetween(nome_operador, parseDate(data_inicial), parseDate(data_final));
+        if (nome_operador != null && data_inicial != null && data_final != null)
+            return repo.findBynomeOperadorTransacaoIgnoreCaseAndDataTransferenciaBetween(nome_operador, parseDate(data_inicial), parseDate(data_final));
         // Get by operator name
         if (nome_operador != null) 
-            return repo.findByNomeOperadorTransacao(nome_operador);
+            return repo.findByNomeOperadorTransacaoIgnoreCase(nome_operador);
         // Get transfers by date range
         if (data_inicial != null && data_final != null) 
             return repo.findByDataTransferenciaBetween(parseDate(data_inicial), parseDate(data_final));

@@ -18,7 +18,7 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
     @EntityGraph(value = "transferencia.data_transferencia", type = EntityGraphType.FETCH, attributePaths = {"dataTransferencia"})
     List<Transferencia> findByDataTransferenciaBetween(@Param("data_inicial") Timestamp data_inicial, @Param("data_final") Timestamp data_final);
     @EntityGraph(value = "transferencia.nome_operador_transacao", type = EntityGraphType.FETCH, attributePaths = {"nomeOperadorTransacao"})
-    List<Transferencia> findByNomeOperadorTransacao(String nome_operador_transacao);
+    List<Transferencia> findByNomeOperadorTransacaoIgnoreCase(String nome_operador_transacao);
     @EntityGraph(type = EntityGraphType.FETCH, attributePaths = {"nomeOperadorTransacao", "dataTransferencia"})
-    List<Transferencia> findBynomeOperadorTransacaoAndDataTransferenciaBetween(String nome_operador_transacao, Timestamp data_inicial, Timestamp data_final);
+    List<Transferencia> findBynomeOperadorTransacaoIgnoreCaseAndDataTransferenciaBetween(String nome_operador_transacao, Timestamp data_inicial, Timestamp data_final);
 }
